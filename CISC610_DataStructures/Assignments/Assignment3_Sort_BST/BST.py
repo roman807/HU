@@ -64,7 +64,7 @@ class BST():
                 self.__insertR(root.right, key)
 
     def delete(self, data):
-        self.__root = self.__deleteR(self.__root, data)
+        self.__deleteR(self.__root, data)
     
     def __deleteR(self, root, key):
         if root == None:
@@ -92,7 +92,7 @@ class BST():
     
     def traverseInOrder(self):
         return self.__traverseInOrderR(self.__root)
-    
+
     def __traverseInOrderR(self, root):
         if root != None:
             self.__traverseInOrderR(root.left)
@@ -104,14 +104,3 @@ class BST():
         
     def getRoot(self):
         return self.__root
-    
-
-b = BST(10)
-b.insert(5)
-b.insert(20)
-b.insert(1)
-b.insert(4)
-b._BST__root.key
-b._BST__root.left.key
-b._BST__root.right.key
-b.traverseInOrder()
