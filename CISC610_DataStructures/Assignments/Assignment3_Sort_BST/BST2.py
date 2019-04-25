@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Roman Moser, 4/23/19
+# Roman Moser, 4/25/19
 
 """
 Binary search tree (BST)
+BST2 code includes:
+    * status for node (True/False)
+    * deleteFalse operation that deletes all nodes of BST2 with status=False
 """
 
-class Node():
-    def __init__(self, key):
+class Node2():
+    def __init__(self, key, status):
         self.key = key
+        self.status = status
         self.left = None
         self.right = None
     
-class BST():
-    def __init__(self, root):
-        self.__root = Node(root)
+class BST2():
+    def __init__(self, root, status=False):
+        self.__root = Node2(root, status)
+        self.to_delete = []
     
     def find(self, key):
         return self.__findR(self.__root, key)
@@ -46,22 +51,22 @@ class BST():
         else:
             return self.__findMaxR(root.right)        
     
-    def insert(self, data):
-        self.__insertR(self.__root, data)
+    def insert(self, data, status=False):
+        self.__insertR(self.__root, data, status)
 
-    def __insertR(self, root, key):
+    def __insertR(self, root, key, status):
         if root == None:
-            return Node(key)
+            return Node2(key, status)
         if key < root.key:
             if root.left == None:
-                root.left = Node(key)
+                root.left = Node2(key, status)
             else:
-                self.__insertR(root.left, key)
+                self.__insertR(root.left, key, status)
         elif key > root.key:
             if root.right == None:
-                root.right = Node(key)
+                root.right = Node2(key, status)
             else:
-                self.__insertR(root.right, key)
+                self.__insertR(root.right, key, status)
 
     def delete(self, data):
         self.__deleteR(self.__root, data)
@@ -83,6 +88,16 @@ class BST():
                 root.right = self.__deleteR(root.right, root.key)
         return root
     
+    def deleteFalse(self):
+        self.__deleteFalseR(self.__root)
+        
+    def __deleteFalseR(self, root):
+        if root != None:
+            self.__deleteFalseR(root.left)
+            if root.status == False:
+                self.delete(root.key)
+            self.__deleteFalseR(root.right)
+
     def __minValue(self, root):
         minv = root.key
         while root.left != None:
