@@ -9,6 +9,7 @@ Test Floyd's algorithm
 
 #import os
 #os.chdir('/home/roman/Documents/HU/CISC610_DataStructures/Assignments/Assignment4_DP')
+import numpy as np
 import math
 INF = math.inf
 
@@ -21,11 +22,12 @@ def main():
          [INF, 3, 0, INF, 4],
          [2, INF, 3, 0, INF],
          [INF, 2, 2, INF, 0]]
-    print(C)
+
     floyd = Floyd(C)
     D, P = floyd.floyd()
-    print('D: ', D)
-    print('P: ', P)
+    print('C: \n', np.array(C), '\n')
+    print('D: \n', D, '\n')
+    print('P: \n', P)
 
 if __name__ == '__main__':
     main()
