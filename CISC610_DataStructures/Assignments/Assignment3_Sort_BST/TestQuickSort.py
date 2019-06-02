@@ -7,9 +7,8 @@
 Test QuickSort
 """
 
-import os
-os.chdir('/home/roman/Documents/HU/CISC610_DataStructures/Assignments/Assignment3_Sort_BST')
-
+#import os
+#os.chdir('/home/roman/Documents/HU/CISC610_DataStructures/Assignments/Assignment3_Sort_BST')
 import random
 import time
 import numpy as np

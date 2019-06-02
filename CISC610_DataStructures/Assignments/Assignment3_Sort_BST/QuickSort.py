@@ -54,3 +54,8 @@ class QuickSort():
         self.numbers[i] = self.numbers[j]
         self.numbers[j] = tmp
 
+
+
+
+
+
