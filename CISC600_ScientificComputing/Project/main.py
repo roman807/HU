@@ -4,7 +4,8 @@
 # Roman Moser, 6/2/19
 
 """
-Quora Insincere Questions - prepare data with word2vec
+Prepare datasets and run all models. Save results as pickle files in 'results'
+and load results to create plots
 run with: python3 main.py 
 """
 
@@ -163,7 +164,7 @@ def plot_results_relative_frequency(data_original, results_relative_freq):
         plt.plot(x, y_iforest, color='red')
         plt.plot(x, y_lof, color='orange')
         plt.title('ROC AUC - {}'.format(dataset))
-    plt.show()
+        plt.show()
     
     mean_roc_auc_lr = np.mean(np.array(roc_auc_lr), axis=0)
     plt.plot(x, mean_roc_auc_lr, color='blue')
@@ -285,7 +286,7 @@ def plot_results_point_difficulty(data_original, results_point_difficulty):
         plt.plot(x, y_iforest, color='red')
         plt.plot(x, y_lof, color='orange')
         plt.title('ROC AUC - {}'.format(dataset))
-    plt.show()
+        plt.show()
     
     mean_roc_auc_lr = np.mean(np.array(roc_auc_lr), axis=0)
     plt.plot(x, mean_roc_auc_lr, color='blue')
@@ -426,7 +427,7 @@ def plot_results_semanitc_variation(data_original, results_semanitc_variation):
         plt.plot(x, y_iforest, color='red')
         plt.plot(x, y_lof, color='orange')
         plt.title('ROC AUC - {}'.format(dataset))
-    plt.show()
+        plt.show()
     
     mean_roc_auc_lr = np.mean(np.array(roc_auc_lr), axis=0)
     plt.plot(x, mean_roc_auc_lr, color='blue')
@@ -453,7 +454,6 @@ def main():
     sc = StandardScaler()
     df.iloc[:, :-1] = sc.fit_transform(df.iloc[:, :-1])
     df['point_difficulty'] = point_difficulty(df)
-    
     ind_reg = df[df.iloc[:, -2]==0].index
     ind_anom = df[df.iloc[:, -2]==1].index
     regular_size = 10000   # only use 10,000 regular samples
@@ -467,31 +467,68 @@ def main():
     sc = StandardScaler()
     df.iloc[:, :-1] = sc.fit_transform(df.iloc[:, :-1])
     df['point_difficulty'] = point_difficulty(df)
-    
     ind_reg = df[df.iloc[:, -2]==0].index
     ind_anom = df[df.iloc[:, -2]==1].index
     data_original['caravan'] = dict()
     data_original['caravan']['regular'] = df.iloc[ind_reg, :]
     data_original['caravan']['anom'] = df.iloc[ind_anom, :]
+
+    # Prepare census data set:
+    df = pd.read_csv('data/census_revised.csv')
+    sc = StandardScaler()
+    df.iloc[:, :-1] = sc.fit_transform(df.iloc[:, :-1])
+    df['point_difficulty'] = point_difficulty(df)
+    ind_reg = df[df.iloc[:, -2]==0].index
+    ind_anom = df[df.iloc[:, -2]==1].index
+    regular_size = 10000   # only use 10,000 regular samples
+    data_original['census'] = dict()
+    data_original['census']['regular'] = df.iloc[ind_reg, :].sample(n=regular_size)
+    data_original['census']['anom'] = df.iloc[ind_anom, :]
+    
+    # Prepare KDD Cup 99 data set:
+    df = pd.read_csv('data/kddcup99_csv.csv')
+    df = df.drop(['protocol_type', 'service', 'flag'], axis=1)
+    df.label = df.label.apply(lambda x: 1 if x=='normal' else 0)
+    sc = StandardScaler()
+    df.iloc[:, :-1] = sc.fit_transform(df.iloc[:, :-1])
+    df['point_difficulty'] = point_difficulty(df)
+    ind_reg = df[df.iloc[:, -2]==0].index
+    ind_anom = df[df.iloc[:, -2]==1].index
+    regular_size = 10000   # only use 10,000 regular samples
+    data_original['kddcup99'] = dict()
+    data_original['kddcup99']['regular'] = df.iloc[ind_reg, :].sample(n=regular_size)
+    data_original['kddcup99']['anom'] = df.iloc[ind_anom, :]    
     
     # Relative frequency:
     anom_freq = np.zeros(11)
     anom_freq[:2] = [0.001, 0.0025]
     anom_freq[2:] = np.linspace(0.005, 0.045, 9)
     print('training datasets with different relative frequencues ...')
+    start = time.time()
     results_relative_frequency(data_original, anom_freq=anom_freq)
-
+    end = time.time()
+    t = (end - start) / 60
+    print('time train relative frequency: {} minutes'.format(t))
+    
     # Point difficulty:
     anom_freq = 0.01
     n_datasets = 10
     print('training datasets with different point difficulties ...')
+    start = time.time()
     results_point_difficulty(data_original, anom_freq=anom_freq, n_datasets=n_datasets)
-
+    end = time.time()
+    t = (end - start) / 60
+    print('time train point difficulties: {} minutes'.format(t))
+    
     # Semantic variance:
     anom_freq = 0.01
     n_datasets = 10
     print('training datasets with different semantic variances...')
+    start = time.time()
     results_semanitc_variation(data_original, anom_freq=anom_freq, n_datasets=n_datasets)
+    end = time.time()
+    t = (end - start) / 60
+    print('time train semantic variances: {} minutes'.format(t))
     
     # Load results:
     pkl_relative_freq = glob.glob('results/results_relative_freq_*')
