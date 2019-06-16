@@ -4,7 +4,7 @@
 # Roman Moser, 6/16/19
 
 """
-Implementation of Exchange Sort (Bubble Sort)
+Implementation of Exchange Sort
  sorting algorithm iterates through list and exchanges elements whenever
  they are not in order
  * Input: array (list of elements)

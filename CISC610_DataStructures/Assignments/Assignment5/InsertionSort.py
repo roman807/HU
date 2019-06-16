@@ -20,7 +20,6 @@ class InsertionSort():
         self.assignment_of_records = 0
     def sort(self):
         for i in range(1, self.n):
-            self.assignment_of_records += 1
             x = self.s[i]
             j = i - 1
             self.comp_keys += 1
