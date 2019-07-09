@@ -9,12 +9,7 @@ Hiroshi Takahashi, Masanori Yamada, Sekitoshi Kanai
 https://arxiv.org/pdf/1903.10709.pdf
 """
 
-import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedKFold
 from keras.models import Sequential
 from keras.layers import Dense
 import keras.backend as K
@@ -43,6 +38,10 @@ def autoencoder_unsupervised(input_dim, activation='tanh',
 
 def autoencoder_supervised(input_dim, activation='tanh', 
                            loss=custom_loss, optimizer='adam'):
+    """Note: input to supervised auto_encoder: 
+        y_true = pd.concat([X_train, y_train])
+        because X_train and y_train are both required in custom loss function
+    """
     model = Sequential()
     model.add(Dense(input_dim=input_dim, units=20, activation=activation))
     model.add(Dense(units=5, activation=activation))
