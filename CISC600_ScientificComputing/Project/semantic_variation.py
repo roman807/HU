@@ -215,7 +215,6 @@ def results_semanitc_variation(data_original, settings):
         name = 'results_semantic_variance_ae_supervised_{}'.format(timestr)
         save_results(results_semantic_variance_ae_supervised, results_dir, name) 
     
-# Plot ROC AUC:
 def plot_results_semantic_variance(data_original, results_semantic_variance, model_names, settings):
     """Plot results for all original dataset over spectrum of generated
        datasets with various semantic variances

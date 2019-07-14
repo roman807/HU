@@ -202,7 +202,6 @@ def results_point_difficulty(data_original, settings):
         name = 'results_point_difficulty_ae_supervised_{}'.format(timestr)
         save_results(results_point_difficulty_ae_supervised, results_dir, name) 
         
-# Plot ROC AUC:
 def plot_results_point_difficulty(data_original, results_point_difficulty, model_names, settings):
     """Plot results for all original dataset over spectrum of generated
        datasets with various point difficulties

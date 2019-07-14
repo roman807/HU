@@ -24,9 +24,8 @@ from scipy import interp
 import autoencoder
 
 def save_results(obj, folder_name, name):
-    with open('results/'+ folder_name + '/' + name + '.pkl', 'wb') as f:
+    with open(folder_name + name + '.pkl', 'wb') as f:
         pickle.dump(obj, f)
-        
         
 def create_mean_roc_auc(y_true_l, y_pred_l):
     tprs_l = []
@@ -39,7 +38,6 @@ def create_mean_roc_auc(y_true_l, y_pred_l):
     mean_tpr[-1] = 1.0
     mean_auc = auc(mean_fpr, mean_tpr)
     return mean_fpr, mean_tpr, mean_auc
-
 
 def results_relative_frequency(data_original, settings):
     """Generate datasets with different ratios ofanomalies:total samples 
@@ -184,7 +182,6 @@ def results_relative_frequency(data_original, settings):
     if settings['models_train']['autoencoder_supervised']:
         name = 'results_relative_frequency_ae_supervised_{}_{}'.format(n_samples, timestr)
         save_results(results_relative_freq_ae_supervised, results_dir, name) 
-
 
 def plot_results_relative_frequency(data_original, results_relative_freq, model_names, settings):
     """Plot results for all original dataset over spectrum of generated

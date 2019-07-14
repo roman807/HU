@@ -8,7 +8,6 @@ Specify all input settings
 """
 
 import numpy as np
-from pathlib import Path
 import os
 
 def create_settings():
@@ -18,30 +17,27 @@ def create_settings():
     # datasets:
     datasets = {
             'credit': True,
-            'caravan': False,
-            'kddcup99': False
+            'caravan': True,
+            'kddcup99': True
             }
     
     # relative frequency settings
-    train = False
+    train = True
     plot_results = False
-#    anom_freq = np.zeros(11)
-#    anom_freq[:2] = [0.001, 0.0025]
-#    anom_freq[2:] = np.linspace(0.005, 0.045, 9)
-    anom_freq = np.array([0.001, 0.0025, 0.005, 0.01, 0.02, 0.03, 0.04])
-    n_random_samples = 2
+    anom_freq = np.array([0.001, 0.0025, 0.005, 0.0075, 0.01, 0.015, 0.02, 0.03, 0.04])
+    n_random_samples = 5
     models_train = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
-            'iforest': True,
+            'iforest': False,
             'lof': False,
             'autoencoder_unsupervised': False,
-            'autoencoder_supervised': False
+            'autoencoder_supervised': True
             }
     models_load = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
-            'iforest': True,
+            'iforest': False,
             'lof': False,
             'autoencoder_unsupervised': False,
             'autoencoder_supervised': False
@@ -57,27 +53,27 @@ def create_settings():
         }
     
     ### point difficulty settings:
-    train = False
-    plot_results = True
+    train = True
+    plot_results = False
     anom_freq = 0.005
     n_datasets = 10
     models_train = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
             'iforest': False,
-            'lof': True,
+            'lof': False,
             'autoencoder_unsupervised': False,
-            'autoencoder_supervised': False
+            'autoencoder_supervised': True
             }
     models_load = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
             'iforest': False,
-            'lof': True,
+            'lof': False,
             'autoencoder_unsupervised': False,
             'autoencoder_supervised': False
             }
-
+    
     settings_point_difficulty = {
             'train': train, 
             'plot_results': plot_results,
@@ -88,23 +84,23 @@ def create_settings():
             }
     
     ### semantic variance settings:
-    train = False
-    plot_results = True
+    train = True
+    plot_results = False
     anom_freq = 0.005
     n_datasets = 10
     models_train = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
             'iforest': False,
-            'lof': True,
+            'lof': False,
             'autoencoder_unsupervised': False,
-            'autoencoder_supervised': False
+            'autoencoder_supervised': True
             }
     models_load = {
-            'lr': True,
+            'lr': False,
             'gbm': False,
             'iforest': False,
-            'lof': True,
+            'lof': False,
             'autoencoder_unsupervised': False,
             'autoencoder_supervised': False
             }
