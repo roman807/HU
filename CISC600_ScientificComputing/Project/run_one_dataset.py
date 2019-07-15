@@ -66,7 +66,7 @@ def main():
         X_train_unsupervised = X.iloc[train_index, :][y[train_index]==0]
         clf = LocalOutlierFactor()
         clf.fit(X_train_unsupervised)
-        decision_function = clf.decision_function(X.iloc[test_index, :])
+        decision_function = clf._decision_function(X.iloc[test_index, :])
         y_true.append(y[test_index])
         y_pred_proba.append(1 - np.interp(decision_function, \
                                     (decision_function.min(), 
