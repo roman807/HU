@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Roman Moser, 9/10/19
+
+"""
+CISC 601 -Scientific Computing II
+Implementation of a genetic algorithm for the knapsack problem
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+#import os
+#os.chdir('/home/roman/Documents/HU/CISC601_ScientificComputingII/Assignments/genetic_algorithm')
+
+from GeneticAlgorithm import GeneticAlgorithm, BruteForce
+
+max_total_weight = 90
+weights = np.squeeze(np.random.randint(10, size=(1, 30)))
+profits = np.squeeze(np.random.randint(10, size=(1, 30)))
+total_generations = 100
+
+def main():
+    # genetic algorithm:
+    ga = GeneticAlgorithm(weights, profits, max_total_weight, total_generations) 
+    ga.weights
+    pool = ga.random_pool()
+    final_pool = ga.genetic_algorithm(pool)
+    chromosome, profit = ga.best_solution(final_pool)
+    plt.plot(
+            ga.fitness_dict.keys(),
+            ga.fitness_dict.values(), 
+            label='GA'
+    )
+
+    # brute force approach:
+    for i in range(5):
+        bf = BruteForce(weights, profits, max_total_weight, total_generations) 
+        bf.brute_force_algorithm()
+        plt.plot(bf.best_solutions.keys(), bf.best_solutions.values(), color='grey', alpha=0.5)
+        if i == 4:
+            plt.plot(
+                    bf.best_solutions.keys(), 
+                    bf.best_solutions.values(), 
+                    color='grey', 
+                    label='Brute Force',
+                    alpha=0.5
+            )
+    plt.title('Knapsack problem: GA vs. brute force')
+    plt.xlabel('number of generations')
+    plt.ylabel('total profit')
+    plt.legend()
+    plt.show()
+
+if __name__ == '__main__':
+    main()
+    
