@@ -16,40 +16,35 @@ import matplotlib.pyplot as plt
 from GeneticAlgorithm import GeneticAlgorithm, BruteForce
 
 max_total_weight = 90
-weights = np.squeeze(np.random.randint(10, size=(1, 30)))
-profits = np.squeeze(np.random.randint(10, size=(1, 30)))
+weights = np.squeeze(np.random.randint(low=1, high=11, size=(1, 30)))
+profits = np.squeeze(np.random.randint(low=1, high=11, size=(1, 30)))
 total_generations = 100
+population_size = 20
 
 def main():
     # genetic algorithm:
-    ga = GeneticAlgorithm(weights, profits, max_total_weight, total_generations) 
-    ga.weights
+    ga = GeneticAlgorithm(weights, profits, max_total_weight, 
+                          total_generations, population_size) 
     pool = ga.random_pool()
     final_pool = ga.genetic_algorithm(pool)
     chromosome, profit = ga.best_solution(final_pool)
-    plt.plot(
-            ga.fitness_dict.keys(),
-            ga.fitness_dict.values(), 
-            label='GA'
-    )
+    plt.plot(ga.fitness_dict.keys(), ga.fitness_dict.values(), label='GA')
 
     # brute force approach:
     for i in range(5):
-        bf = BruteForce(weights, profits, max_total_weight, total_generations) 
+        bf = BruteForce(weights, profits, max_total_weight, total_generations,
+                        population_size) 
         bf.brute_force_algorithm()
-        plt.plot(bf.best_solutions.keys(), bf.best_solutions.values(), color='grey', alpha=0.5)
+        plt.plot(bf.best_solutions.keys(), bf.best_solutions.values(), 
+                 color='grey', alpha=0.5)
         if i == 4:
-            plt.plot(
-                    bf.best_solutions.keys(), 
-                    bf.best_solutions.values(), 
-                    color='grey', 
-                    label='Brute Force',
-                    alpha=0.5
-            )
+            plt.plot(bf.best_solutions.keys(), bf.best_solutions.values(), 
+                    color='grey', label='Brute Force', alpha=0.5)
     plt.title('Knapsack problem: GA vs. brute force')
     plt.xlabel('number of generations')
     plt.ylabel('total profit')
     plt.legend()
+    plt.savefig('genetic_algorithm_knapsack.png')
     plt.show()
 
 if __name__ == '__main__':

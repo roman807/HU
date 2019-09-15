@@ -12,17 +12,17 @@ import numpy as np
 import pandas as pd
 import random
 
-
 class Setup():
     """
     define attributes and methods used for both, the Genetic Algorithm and 
     the Brute Force approach
     """
-    def __init__(self, weights, profits, max_total_weight):
+    def __init__(self, weights, profits, max_total_weight, population_size):
         self.weights = weights
         self.profits = profits
         self.max_total_weight = max_total_weight
-        self.population_size = len(weights)
+        self.population_size = population_size
+        self.chromosome_length = len(weights)
 
     def fitness(self, array):
         penalty = 0
@@ -33,9 +33,8 @@ class Setup():
     def random_pool(self):
         pool = pd.DataFrame(index=range(self.population_size), columns = ['chromosome', 'fitness'])
         for i in range(self.population_size):
-            chromosome = [np.round(k) for k in np.random.rand(self.population_size)]
-            pool.iloc[i, :] = \
-                np.array([chromosome, self.fitness(chromosome)])
+            chromosome = [np.round(k) for k in np.random.rand(self.chromosome_length)]
+            pool.iloc[i, :] = np.array([chromosome, self.fitness(chromosome)])
             pool.sort_values('fitness', inplace=True, ascending=False)
             pool.reset_index(drop=True, inplace=True)
         return pool
@@ -61,8 +60,9 @@ class GeneticAlgorithm(Setup):
     top 50% parent chromosomes of the previous generation and 50% mutations
     (mutate 1 chromosom) of the top 50% parent chromosomes 
     """
-    def __init__(self, weights, profits, max_total_weight, total_generations):
-        Setup.__init__(self, weights, profits, max_total_weight)
+    def __init__(self, weights, profits, max_total_weight, total_generations,
+                 population_size):
+        Setup.__init__(self, weights, profits, max_total_weight, population_size)
         self.total_generations = total_generations
         self.fitness_dict = {}
         self.max_fitness = 0
@@ -100,8 +100,7 @@ class GeneticAlgorithm(Setup):
         i = 0
         for chromosomes in (members_children, members_mutated):
             for chromosome in chromosomes:
-                pool.iloc[i, :] = \
-                    np.array([chromosome, self.fitness(chromosome)])
+                pool.iloc[i, :] = np.array([chromosome, self.fitness(chromosome)])
                 i += 1
         pool.sort_values('fitness', inplace=True, ascending=False)
         pool.reset_index(drop=True, inplace=True)
@@ -126,8 +125,9 @@ class BruteForce(Setup):
     Brute Force Algorithm: generate random pools of chromosomes (same population
     size as for genetic algorithm)
     """  
-    def __init__(self, weights, profits, max_total_weight, total_generations):
-        Setup.__init__(self, weights, profits, max_total_weight)
+    def __init__(self, weights, profits, max_total_weight, total_generations,
+                 population_size):
+        Setup.__init__(self, weights, profits, max_total_weight, population_size)
         self.total_generations = total_generations
         self.best_solutions = {}
         self.max_fitness = 0
