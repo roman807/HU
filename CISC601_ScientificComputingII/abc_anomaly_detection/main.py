@@ -35,21 +35,30 @@ def main():
     y_test_U = data_test_U.iloc[:, 0]
     
     # train & predict:
+    results = {}
     for model in models:
+        results[model] = {}
         print('train ' + str(model))
         i = __import__('models.' + model, fromlist=[''])
         clf = getattr(i, model)(X_train, y_train)
         start = time()
         clf.fit()
         end = time()
-        y_train_pred = clf.predict(X_train)
-        y_test_A_pred = clf.predict(X_test_A)
-        y_test_U_pred = clf.predict(X_test_U)
+        results[model]['time'] = end - start
+        results[model]['y_train_pred'] = clf.predict(X_train)
+        results[model]['y_test_A_pred'] = clf.predict(X_test_A)
+        results[model]['y_test_U_pred'] = clf.predict(X_test_U)
+    
+    # print results:
+    for model in models:
         print('********** Results ' + str(model) + ' **********')
-        print('training time:', np.round(end - start))
-        print('AUC ROC training data:         ', roc_auc_score(y_train, y_train_pred))
-        print('AUC ROC test known anomalies:  ', roc_auc_score(y_test_A, y_test_A_pred))
-        print('AUC ROC test unknown anomalies:', roc_auc_score(y_test_U, y_test_U_pred), '\n')
+        print('training time:', np.round(results[model]['time']))
+        print('AUC ROC training data:         ', 
+              roc_auc_score(y_train, results[model]['y_train_pred']))
+        print('AUC ROC test known anomalies:  ', 
+              roc_auc_score(y_test_A, results[model]['y_test_A_pred']))
+        print('AUC ROC test unknown anomalies:', 
+              roc_auc_score(y_test_U, results[model]['y_test_U_pred']), '\n')
 
 if __name__ == '__main__':
     main()
