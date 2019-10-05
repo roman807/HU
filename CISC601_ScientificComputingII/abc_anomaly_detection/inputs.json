@@ -1,0 +1,4 @@
+{
+   "dataset":"mnist",
+   "models":["ABC", "AE"]
+}
