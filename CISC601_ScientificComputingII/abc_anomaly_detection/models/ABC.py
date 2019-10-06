@@ -18,7 +18,7 @@ import keras.backend as K
 from sklearn.model_selection import train_test_split
 
 # input parameters:
-EPOCHS = 20
+EPOCHS = 300
 BATCH_SIZE = 100
 OPTIMIZER = 'adam'
 ACTIVATION = 'tanh'

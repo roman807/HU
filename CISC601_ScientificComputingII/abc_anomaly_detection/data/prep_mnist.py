@@ -11,7 +11,6 @@ https://arxiv.org/pdf/1903.10709.pdf
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
-#from sklearn.preprocessing import StandardScaler
 
 import os
 os.chdir('/home/roman/Documents/HU/CISC601_ScientificComputingII/abc_anomaly_detection/data')
@@ -19,7 +18,6 @@ os.chdir('/home/roman/Documents/HU/CISC601_ScientificComputingII/abc_anomaly_det
 #sc = StandardScaler()
 
 mnist = pd.read_csv('train.csv')
-#mnist.loc[:, mnist.columns!='label'] = sc.fit_transform(mnist.loc[:, mnist.columns!='label'])
 mnist.loc[:, mnist.columns!='label'] = mnist.loc[:, mnist.columns!='label'] / \
                                mnist.loc[:, mnist.columns!='label'].max().max()
 mnist_train, mnist_test = train_test_split(mnist, test_size=0.5, random_state=123)
@@ -28,9 +26,6 @@ mnist_train, mnist_test = train_test_split(mnist, test_size=0.5, random_state=12
 REGULAR = [1, 3, 5, 7, 9]
 ANOM_A = [0, 2, 6, 8]
 ANOM_U = [4]
-#REGULAR = [1, 3, 4, 5, 7, 9]
-#ANOM_A = [6, 8]
-#ANOM_U = [0, 2]
 
 # label 4: unknown anomalies --> exclude from training set:
 mnist_train = mnist_train[mnist_train['label'].isin(ANOM_U) == False]

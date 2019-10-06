@@ -22,4 +22,3 @@ class IForest:
         decision_function = self.clf.decision_function(X)
         return 1 - np.interp(decision_function, (decision_function.min(), \
                                              decision_function.max()), (0, 1))
-        
