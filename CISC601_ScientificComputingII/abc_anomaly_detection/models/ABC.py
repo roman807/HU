@@ -18,7 +18,7 @@ import keras.backend as K
 from sklearn.model_selection import train_test_split
 
 # input parameters:
-EPOCHS = 300
+EPOCHS = 100
 BATCH_SIZE = 100
 OPTIMIZER = 'adam'
 ACTIVATION = 'tanh'
@@ -36,7 +36,7 @@ class ABC:
         diff_squared = np.sqrt(((X_true - X_pred) ** 2).sum(axis=1))
         error = 1 - np.exp(-diff_squared / diff_squared.mean())
         return error
-    
+
     def custom_loss(self, y_true, X_pred):
         """
         y=0: normal point, y=1: anomaly
@@ -45,7 +45,7 @@ class ABC:
         y = y_true[:, -1]
         l2_norm = K.sqrt(K.sum(K.square(X - X_pred), axis=1))
         return (1 - y) * l2_norm - y * l2_norm
-    
+
     def abc(self, activation=ACTIVATION, optimizer=OPTIMIZER):
         """
         Note: input to supervised auto_encoder: 

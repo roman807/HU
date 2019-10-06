@@ -15,8 +15,6 @@ from sklearn.model_selection import train_test_split
 import os
 os.chdir('/home/roman/Documents/HU/CISC601_ScientificComputingII/abc_anomaly_detection/data')
 
-#sc = StandardScaler()
-
 mnist = pd.read_csv('train.csv')
 mnist.loc[:, mnist.columns!='label'] = mnist.loc[:, mnist.columns!='label'] / \
                                mnist.loc[:, mnist.columns!='label'].max().max()

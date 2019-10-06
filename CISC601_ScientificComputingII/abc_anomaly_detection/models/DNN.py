@@ -13,7 +13,7 @@ from keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
 
 # input parameters:
-EPOCHS = 300
+EPOCHS = 100
 BATCH_SIZE = 100
 OPTIMIZER = 'adam'
 ACTIVATION = 'tanh'

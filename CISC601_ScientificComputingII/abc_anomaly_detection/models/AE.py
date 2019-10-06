@@ -16,7 +16,7 @@ from keras.callbacks import ModelCheckpoint
 from sklearn.model_selection import train_test_split
 
 # input parameters:
-EPOCHS = 300
+EPOCHS = 100
 BATCH_SIZE = 100
 OPTIMIZER = 'adam'
 ACTIVATION = 'tanh'
@@ -73,9 +73,3 @@ class AE:
         self.ae.load_weights('models/trained/ae_weights.best.hdf5')
         X_test_pred = self.ae.predict(X_test)
         return self.reconstruction_error(X_test, X_test_pred)
-
-
-
-
-
-

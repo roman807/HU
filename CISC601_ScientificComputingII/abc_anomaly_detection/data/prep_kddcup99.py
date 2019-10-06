@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import re
 import csv
+from sklearn.preprocessing import StandardScaler
 
 import os
 os.chdir('/home/roman/Documents/HU/CISC601_ScientificComputingII/abc_anomaly_detection/data')
@@ -49,6 +50,10 @@ kdd_test = pd.read_csv('kdd_test.csv')
 kdd_test.drop(drop_columns, axis=1, inplace=True)
 kdd_test.drop_duplicates(inplace=True)
 
+sc = StandardScaler()
+kdd_train.iloc[:, :-1] = sc.fit_transform(kdd_train.iloc[:, :-1])
+kdd_test.iloc[:, :-1] = sc.fit_transform(kdd_test.iloc[:, :-1])
+
 # known anomalies (anom_A): 'neptune'
 # unknown anomalies (anom_U): (R2L attacks) ftp_write, guess_passwd, imap, 
 # multihop, named, phf, sendmail, snmpgetattack, snmpguess, warezmaster, worm, 
@@ -69,6 +74,8 @@ kdd_train = kdd_train[kdd_train['label'].isin(ANOM_U) == False]
 kdd_test_A = kdd_test[kdd_test['label'].isin(ANOM_U) == False]
 kdd_test_U = kdd_test[kdd_test['label'].isin(ANOM_A) == False]
 
+
+
 # set labels to 0 (regular) and 1 (anomaly):
 d = {}
 for i in regular:
@@ -83,3 +90,4 @@ kdd_test_U.loc[:, 'label'] = kdd_test_U['label'].apply(lambda x: d[x])
 kdd_train.to_csv('kdd_train.csv', index=False)
 kdd_test_A.to_csv('kdd_test_A.csv', index=False)
 kdd_test_U.to_csv('kdd_test_U.csv', index=False)
+
